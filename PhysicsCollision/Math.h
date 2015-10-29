@@ -21,6 +21,8 @@ typedef struct PT{
 	float y;
 }Point;
 
+//only for a more readable code
+#define Vector Point
 
 //-----------------Basic Math functions--------------//
 
@@ -35,6 +37,9 @@ float TS8_cos(float angle);
 
 //constructor of point
 Point pointMake(float x, float y);
+
+//normalize a point
+void normalizePoint(Point* p);
 
 //distance between 2 points
 float pointsDistance(Point a, Point b);

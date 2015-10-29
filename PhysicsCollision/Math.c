@@ -65,6 +65,13 @@ Point pointMake(float x, float y){
 	return a;
 }
 
+void normalizePoint(Point* p){
+	float length = BS_sqrt(p->x*p->x+p->y*p->y);
+	p->x /= length;
+	p->y /= length;
+	return;
+}
+
 float pointsDistance(Point a, Point b){
 	float deltax = a.x - b.x;
 	float deltay = a.y - b.y;

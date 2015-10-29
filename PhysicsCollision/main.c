@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "PhysicsObject.h"
+#include "PhysicsCalculator.h"
 
 int main(int argc, const char * argv[]) {
 	// insert code here...
@@ -30,6 +30,8 @@ int main(int argc, const char * argv[]) {
 	calculateMinimumCircle(a);
 	
 	printf("sizeof->%lu\n",sizeof(PhysicsObject));
+	
+	printf("sizeofPAIR->%lu\n",sizeof(CollisionPair));
 	
 	printf("%f (%f,%f)\n",a->minimumCircleRadius, a->minimumCirclePosition.x, a->minimumCirclePosition.y);
 	

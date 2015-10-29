@@ -10,6 +10,7 @@
 		C4EE002C1BDEC9E700A4CE72 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = C4EE002B1BDEC9E700A4CE72 /* main.c */; };
 		C4EE00341BDECA2700A4CE72 /* PhysicsObject.c in Sources */ = {isa = PBXBuildFile; fileRef = C4EE00321BDECA2700A4CE72 /* PhysicsObject.c */; settings = {ASSET_TAGS = (); }; };
 		C4EE00371BDFA49100A4CE72 /* Math.c in Sources */ = {isa = PBXBuildFile; fileRef = C4EE00351BDFA49100A4CE72 /* Math.c */; settings = {ASSET_TAGS = (); }; };
+		C4EE003A1BE273DF00A4CE72 /* PhysicsCalculator.c in Sources */ = {isa = PBXBuildFile; fileRef = C4EE00381BE273DF00A4CE72 /* PhysicsCalculator.c */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,6 +32,8 @@
 		C4EE00331BDECA2700A4CE72 /* PhysicsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsObject.h; sourceTree = "<group>"; };
 		C4EE00351BDFA49100A4CE72 /* Math.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Math.c; sourceTree = "<group>"; };
 		C4EE00361BDFA49100A4CE72 /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
+		C4EE00381BE273DF00A4CE72 /* PhysicsCalculator.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PhysicsCalculator.c; sourceTree = "<group>"; };
+		C4EE00391BE273DF00A4CE72 /* PhysicsCalculator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsCalculator.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,8 @@
 				C4EE00361BDFA49100A4CE72 /* Math.h */,
 				C4EE00321BDECA2700A4CE72 /* PhysicsObject.c */,
 				C4EE00331BDECA2700A4CE72 /* PhysicsObject.h */,
+				C4EE00381BE273DF00A4CE72 /* PhysicsCalculator.c */,
+				C4EE00391BE273DF00A4CE72 /* PhysicsCalculator.h */,
 			);
 			path = PhysicsCollision;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4EE00341BDECA2700A4CE72 /* PhysicsObject.c in Sources */,
+				C4EE003A1BE273DF00A4CE72 /* PhysicsCalculator.c in Sources */,
 				C4EE002C1BDEC9E700A4CE72 /* main.c in Sources */,
 				C4EE00371BDFA49100A4CE72 /* Math.c in Sources */,
 			);
