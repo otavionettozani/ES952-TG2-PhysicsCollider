@@ -10,8 +10,6 @@
 #include <stdlib.h>
 #include "PhysicsObject.h"
 
-#include "Math.h"
-
 int main(int argc, const char * argv[]) {
 	// insert code here...
 	

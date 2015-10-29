@@ -57,3 +57,16 @@ float TS8_cos(float angle){
 	
 	return 1 - 0.5*angle2 + 0.041666*angle4 - 0.001388*angle6 + 0.000024*angle8;
 }
+
+Point pointMake(float x, float y){
+	Point a;
+	a.x = x;
+	a.y = y;
+	return a;
+}
+
+float pointsDistance(Point a, Point b){
+	float deltax = a.x - b.x;
+	float deltay = a.y - b.y;
+	return BS_sqrt(deltax*deltax + deltay*deltay);
+}

@@ -15,6 +15,13 @@
 
 #define PI 3.14159265359
 
+//defines the format of a point
+typedef struct PT{
+	float x;
+	float y;
+}Point;
+
+
 //-----------------Basic Math functions--------------//
 
 //binary search sqrt
@@ -25,3 +32,9 @@ float TS9_sin(float angle);
 
 //taylor series cos
 float TS8_cos(float angle);
+
+//constructor of point
+Point pointMake(float x, float y);
+
+//distance between 2 points
+float pointsDistance(Point a, Point b);

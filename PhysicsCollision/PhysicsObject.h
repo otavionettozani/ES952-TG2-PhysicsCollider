@@ -10,6 +10,7 @@
 #define PhysicsObject_h
 
 #include <stdio.h>
+#include "Math.h"
 
 #endif /* PhysicsObject_h */
 
@@ -20,12 +21,6 @@ typedef enum objectType{
 	OBJECT_TYPE_CIRCLE = 0,
 	OBJECT_TYPE_POLYGON = 1
 }ObjectType;
-
-//defines the format of a point
-typedef struct PT{
-	float x;
-	float y;
-}Point;
 
 //defines the physics object itself
 typedef struct PO{
@@ -49,9 +44,6 @@ typedef struct PO{
 
 //--------------------------Building Objects--------------------------//
 
-//constructor of point
-Point pointMake(float x, float y);
-
 //add the point to an object, returns 1 if succeed, 0 otherwise
 char addPointToObject(PhysicsObject* object, Point point);
 
@@ -59,9 +51,6 @@ char addPointToObject(PhysicsObject* object, Point point);
 
 //verifies if object is a valid physicsObject
 char isObjectValid(PhysicsObject* object);
-
-//distance between 2 points
-float pointsDistance(Point a, Point b);
 
 //returns the position of point pt (originally in local reference) in a world reference
 Point worldPosition(Point point, PhysicsObject object);

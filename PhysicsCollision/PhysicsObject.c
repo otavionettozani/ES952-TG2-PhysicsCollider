@@ -8,16 +8,9 @@
 
 #include "PhysicsObject.h"
 #include <stdlib.h>
-#include "Math.h"
+
 
 //--------------------------Building Objects--------------------------//
-
-Point pointMake(float x, float y){
-	Point a;
-	a.x = x;
-	a.y = y;
-	return a;
-}
 
 char addPointToObject(PhysicsObject* object, Point point){
 	
@@ -45,12 +38,6 @@ char isObjectValid(PhysicsObject* object){
 		return 1;
 	}
 	return 0;
-}
-
-float pointsDistance(Point a, Point b){
-	float deltax = a.x - b.x;
-	float deltay = a.y - b.y;
-	return BS_sqrt(deltax*deltax + deltay*deltay);
 }
 
 Point worldPosition(Point point, PhysicsObject object){
