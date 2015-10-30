@@ -22,7 +22,7 @@ typedef struct PT{
 }Point;
 
 //only for a more readable code
-#define Vector Point
+typedef Point Vector;
 
 //-----------------Basic Math functions--------------//
 
@@ -43,3 +43,7 @@ void normalizePoint(Point* p);
 
 //distance between 2 points
 float pointsDistance(Point a, Point b);
+
+//rotate a vector
+Vector rotateVector(Vector a, float angle);
+

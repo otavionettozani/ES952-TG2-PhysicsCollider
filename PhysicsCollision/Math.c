@@ -77,3 +77,11 @@ float pointsDistance(Point a, Point b){
 	float deltay = a.y - b.y;
 	return BS_sqrt(deltax*deltax + deltay*deltay);
 }
+
+Vector rotateVector(Vector a, float angle){
+	Vector result;
+	float sin = TS9_sin(angle), cos = TS8_cos(angle);
+	result.x = cos*a.x - sin*a.y;
+	result.y = sin*a.x + cos*a.y;
+	return result;
+}
