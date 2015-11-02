@@ -11,45 +11,47 @@
 #include "PhysicsCalculator.h"
 
 int main(int argc, const char * argv[]) {
-	// insert code here...
 	
+	//Object A
 	PhysicsObject* a = (PhysicsObject*)calloc(1, sizeof(PhysicsObject));
 	
 	a->type = OBJECT_TYPE_POLYGON;
 	
-	addPointToObject(a, pointMake(1, 0));
-	addPointToObject(a, pointMake(10, 0));
-	addPointToObject(a, pointMake(5, 1));
-	addPointToObject(a, pointMake(5, 4));
+	addPointToObject(a, pointMake(0, 0));
+	addPointToObject(a, pointMake(2, -2));
+	addPointToObject(a, pointMake(4, 0));
+	addPointToObject(a, pointMake(2, 2));
 	
-	a->rotationCenter = pointMake(1, 0);
+	a->rotationCenter = pointMake(0, 2);
 	
-	a->rotation = PI;
-	//a->position = pointMake(1, 1);
+	a->rotation = 0;
+	a->position = pointMake(0, 0);
 	
 	calculateMinimumCircle(a);
 	
-	printf("sizeof->%lu\n",sizeof(PhysicsObject));
-	
-	printf("sizeofPAIR->%lu\n",sizeof(CollisionPair));
-	
-	printf("%f (%f,%f)\n",a->minimumCircleRadius, a->minimumCirclePosition.x, a->minimumCirclePosition.y);
-	
-	Point b = worldPosition(pointMake(0, 0), *a);
-	
-	printf("(%f, %f)\n",b.x,b.y);
-	
-	
 	separateTriangles(a);
 	
-	printf("triangles----\n");
-	for (int k = 0; k<6; k++) {
-		for (int j=0; j<3; j++) {
-			printf("(%g,%g) ",a->format.polygonInfo.triangles[k][j].x,a->format.polygonInfo.triangles[k][j].y);
-		}
-		printf("\n");
-	}
-	printf("triangles end----\n");
+	//Object B
+	PhysicsObject* b = (PhysicsObject*)calloc(1, sizeof(PhysicsObject));
+	
+	b->type = OBJECT_TYPE_POLYGON;
+	
+	addPointToObject(b, pointMake(0, -1));
+	addPointToObject(b, pointMake(2, -4));
+	addPointToObject(b, pointMake(4, -1));
+	
+	b->rotationCenter = pointMake(2, -2);
+	
+	b->rotation = PI;
+	b->position = pointMake(0, 0);
+	
+	calculateMinimumCircle(b);
+	
+	separateTriangles(b);
+	
+	//collisions
+	
+	collideObjects(b, a);
 	
     return 0;
 }

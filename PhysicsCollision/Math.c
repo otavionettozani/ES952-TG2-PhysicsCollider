@@ -10,7 +10,7 @@
 #define THRESHOLD 0.00001
 
 float BS_sqrt(float value){
-	float base = 0, top = value;
+	float base =value<1?value:0, top=value<1?1:value;
 	float answer = value/2;
 	
 	while (answer*answer-value<-THRESHOLD || answer*answer-value>THRESHOLD) {

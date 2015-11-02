@@ -15,8 +15,6 @@
 
 #include "PhysicsObject.h"
 typedef struct CP{
-	PhysicsObject* a;
-	PhysicsObject* b;
 	float depth;
 	Vector normal;
 	Point location;
@@ -24,4 +22,4 @@ typedef struct CP{
 
 
 //returns a collision pair between objects A and B, this method calculates both coarse and refined collision
-CollisionPair collideObjects(PhysicsObject* a, PhysicsObject* b);
+void collideObjects(PhysicsObject* a, PhysicsObject* b);
