@@ -13,7 +13,16 @@
 
 #endif /* PhysicsCalculator_h */
 
+#define RESTITUTION_COEFFCIENT 0.5
+
 #include "PhysicsObject.h"
+
+typedef struct DS {
+	float deltaAngVel;
+	Vector deltaVel;
+	Point deltaPosition;
+} State;
+
 typedef struct CP{
 	float depth;
 	Vector normal;
@@ -22,4 +31,4 @@ typedef struct CP{
 
 
 //returns a collision pair between objects A and B, this method calculates both coarse and refined collision
-void collideObjects(PhysicsObject* a, PhysicsObject* b);
+State collideObjects(PhysicsObject* a, PhysicsObject* b);

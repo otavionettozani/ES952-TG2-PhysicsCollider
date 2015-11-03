@@ -22,10 +22,15 @@ typedef enum objectType{
 	OBJECT_TYPE_POLYGON = 1
 }ObjectType;
 
+//its important to note that we consider the rotation center of the object as its center of mass
+//also, note that we just keep the values of inverted mass and inverted inertia in our calculations
+//this way, we can even represent infinite mass objects and infinite inertia objects (as a wall could be)
+
 //defines the physics object itself
 typedef struct PO{
+	//geometry parameters
 	Point position;
-	float rotation;
+	float rotation; //radians
 	Point rotationCenter;
 	ObjectType type;
 	union Format{
@@ -38,14 +43,18 @@ typedef struct PO{
 	}format;
 	float minimumCircleRadius;
 	Point minimumCirclePosition;
-	
-	
+	//physics parameters
+	float inverseMass;
+	float inverseInertia;
+	float angularVelocity;//radians/sec
+	Vector linearVelocity;
 }PhysicsObject;
 
 //--------------------------Building Objects--------------------------//
 
 //add the point to an object, returns 1 if succeed, 0 otherwise
 char addPointToObject(PhysicsObject* object, Point point);
+
 
 //-----------------Geometry Validation and Generics--------------------//
 

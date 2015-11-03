@@ -22,10 +22,14 @@ int main(int argc, const char * argv[]) {
 	addPointToObject(a, pointMake(4, 0));
 	addPointToObject(a, pointMake(2, 2));
 	
-	a->rotationCenter = pointMake(0, 2);
+	a->rotationCenter = pointMake(2, 0);
 	
 	a->rotation = 0;
 	a->position = pointMake(0, 0);
+	
+	a->inverseInertia = 1;
+	a->inverseMass = 1;
+	a->linearVelocity = pointMake(0, -1);
 	
 	calculateMinimumCircle(a);
 	
@@ -45,12 +49,16 @@ int main(int argc, const char * argv[]) {
 	b->rotation = PI;
 	b->position = pointMake(0, 0);
 	
+	b->inverseMass = 1;
+	b->inverseInertia = 1;
+	
 	calculateMinimumCircle(b);
 	
 	separateTriangles(b);
 	
 	//collisions
 	
+	collideObjects(a, b);
 	collideObjects(b, a);
 	
     return 0;

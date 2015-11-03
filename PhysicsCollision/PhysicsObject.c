@@ -69,7 +69,6 @@ char isPointInsideCircle(Point point, float radius, Point position){
 	if(pointsDistance(point, position)<=radius){
 		return 1;
 	}
-
 	return 0;
 }
 

@@ -25,6 +25,10 @@ float BS_sqrt(float value){
 	return answer;
 }
 
+float Fabs(float num){
+	return num<0?-num:num;
+}
+
 float TS9_sin(float angle){
 	while(angle<-PI){
 		angle+=2*PI;

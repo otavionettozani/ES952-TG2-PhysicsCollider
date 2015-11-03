@@ -9,6 +9,39 @@
 #include "PhysicsCalculator.h"
 
 
+
+State physicsResolution(PhysicsObject*a, PhysicsObject*b, CollisionPair pair){
+	//first we find the impulse in our collision
+	float impulse;
+	
+	Point centerA = worldPosition(a->rotationCenter, *a);
+	Point centerB = worldPosition(b->rotationCenter, *b);
+	Point RA = pointMake(centerA.x-pair.location.x, centerA.y-pair.location.y);
+	Point RB = pointMake(centerB.x-pair.location.x, centerB.y-pair.location.y);
+	
+	Vector VAP = pointMake(a->linearVelocity.x+a->angularVelocity*RA.x, a->linearVelocity.y+a->angularVelocity*RA.y);
+	Vector VBP = pointMake(b->linearVelocity.x+b->angularVelocity*RB.x, b->linearVelocity.y+b->angularVelocity*RB.y);
+	Vector VAB = pointMake(VAP.x - VBP.x, VAP.y - VBP.y);
+	
+	float crossRANsquare = RA.x*pair.normal.y-pair.normal.x*RA.y;
+	crossRANsquare = crossRANsquare*crossRANsquare;
+	float crossRBNsquare = RB.x*pair.normal.y-pair.normal.x*RB.y;
+	crossRBNsquare = crossRBNsquare*crossRBNsquare;
+	
+	impulse = a->inverseMass + b->inverseMass + a->inverseInertia*crossRANsquare + b->inverseInertia*crossRBNsquare;
+	impulse = -(1+RESTITUTION_COEFFCIENT)*(VAB.x*pair.normal.x+VAB.y*pair.normal.y)/impulse;
+	
+	
+	State DeltaState;
+	DeltaState.deltaVel = pointMake(impulse*a->inverseMass*pair.normal.x,impulse*a->inverseMass*pair.normal.y);
+	DeltaState.deltaAngVel = (RA.x*pair.normal.y-RA.y*pair.normal.x)*a->inverseInertia*impulse;
+	
+	float deltaPosModule = a->inverseMass*pair.depth/(a->inverseMass+b->inverseMass);
+	DeltaState.deltaPosition = pointMake(deltaPosModule*pair.normal.x, deltaPosModule*pair.normal.y);
+	
+	return DeltaState;
+}
+
 char coarseCollision(PhysicsObject*a, PhysicsObject*b){
 	Point aCenter = worldPosition(a->minimumCirclePosition, *a);
 	Point bCenter = worldPosition(b->minimumCirclePosition, *b);
@@ -17,10 +50,15 @@ char coarseCollision(PhysicsObject*a, PhysicsObject*b){
 	return centerDistance<radiusSum;
 }
 
-void collideObjects(PhysicsObject* a, PhysicsObject* b){
+State collideObjects(PhysicsObject* a, PhysicsObject* b){
+	State state;
+	state.deltaAngVel = 0;
+	state.deltaPosition = pointMake(0, 0);
+	state.deltaVel = pointMake(0, 0);
+	
 	CollisionPair pairs[2*PHYSICS_OBJECT_MAXIMUM_POINTS];
 	if(!coarseCollision(a, b)){
-		return;
+		return state;
 	}
 	
 	//if a coarse collision happened, we will search for a refined one in each of A's edges.
@@ -86,15 +124,15 @@ void collideObjects(PhysicsObject* a, PhysicsObject* b){
 				normalizePoint(&normal);
 				Point collisionPoint=pointMake(((PA1.x+w1*A1.x)+(PA2.x+w2*A2.x))*0.5, ((PA1.y+w1*A1.y)+(PA2.y+w2*A2.y))*0.5);
 				float depth = (PA2.x-collisionPoint.x)*normal.x+(PA2.y-collisionPoint.y)*normal.y;
-				depth=depth<0?-depth:depth;
-				if(depth>pairs[pairCount].depth){
+				depth = -depth;
+				if(Fabs(depth)>Fabs(pairs[pairCount].depth)){
 					pairs[pairCount].depth = depth;
 					pairs[pairCount].normal = normal;
 					pairs[pairCount].location=collisionPoint;
 				}
 			}
 		}
-		if(pairs[pairCount].depth>0){
+		if(Fabs(pairs[pairCount].depth)>0){
 			pairCount++;
 		}
 	}
@@ -159,15 +197,14 @@ void collideObjects(PhysicsObject* a, PhysicsObject* b){
 				normalizePoint(&normal);
 				Point collisionPoint=pointMake(((PA1.x+w1*A1.x)+(PA2.x+w2*A2.x))*0.5, ((PA1.y+w1*A1.y)+(PA2.y+w2*A2.y))*0.5);
 				float depth = (PA2.x-collisionPoint.x)*normal.x+(PA2.y-collisionPoint.y)*normal.y;
-				depth=depth<0?-depth:depth;
-				if(depth>pairs[pairCount].depth){
+				if(Fabs(depth)>Fabs(pairs[pairCount].depth)){
 					pairs[pairCount].depth = depth;
 					pairs[pairCount].normal = normal;
 					pairs[pairCount].location=collisionPoint;
 				}
 			}
 		}
-		if(pairs[pairCount].depth>0){
+		if(Fabs(pairs[pairCount].depth)>0){
 			pairCount++;
 		}
 	}
@@ -234,8 +271,8 @@ void collideObjects(PhysicsObject* a, PhysicsObject* b){
 				Vector normal = rotateVector(c12, -PI*0.5); //rotate the edge by -90 degrees, so that it points outside
 				normalizePoint(&normal);
 				Point collisionPoint=pointMake((collision1.x+collision2.x)*0.5, (collision1.y+collision2.y)*0.5);
-				float depth = (PA2.x-collisionPoint.x)*normal.x+(PA2.y-collisionPoint.y)*normal.y;
-				depth=depth<0?-depth:depth;
+				float depth = (PA2.x-PB2.x)*normal.x+(PA2.y-PB2.y)*normal.y;
+				depth = -depth;
 				pairs[pairCount].depth = depth;
 				pairs[pairCount].normal = normal;
 				pairs[pairCount].location=collisionPoint;
@@ -244,6 +281,18 @@ void collideObjects(PhysicsObject* a, PhysicsObject* b){
 		}
 	}
 	
+	int currentCollision;
+	//solves the physics part ot the collision for each collision that has happened
+
+	for (currentCollision =0; currentCollision<pairCount; currentCollision++) {
+		State st = physicsResolution(a,b,pairs[currentCollision]);
+		state.deltaAngVel += st.deltaAngVel;
+		state.deltaPosition=pointMake(st.deltaPosition.x+state.deltaPosition.x, st.deltaPosition.y+state.deltaPosition.y);
+		state.deltaVel=pointMake(st.deltaVel.x+state.deltaVel.x, st.deltaVel.y+state.deltaVel.y);
+	}
+	state.deltaAngVel += a->angularVelocity;
+	state.deltaVel = pointMake(a->linearVelocity.x+state.deltaVel.x, a->linearVelocity.y+state.deltaVel.y);
+	state.deltaPosition = pointMake(a->position.x+state.deltaPosition.x, a->position.y+state.deltaPosition.y);
 	
-	return;
+	return state;
 }

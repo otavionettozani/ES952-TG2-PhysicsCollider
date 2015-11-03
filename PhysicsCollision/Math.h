@@ -26,6 +26,8 @@ typedef Point Vector;
 
 //-----------------Basic Math functions--------------//
 
+float Fabs(float num);
+
 //binary search sqrt
 float BS_sqrt(float value);
 
