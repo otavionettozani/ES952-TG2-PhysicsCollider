@@ -16,11 +16,11 @@ State physicsResolution(PhysicsObject*a, PhysicsObject*b, CollisionPair pair){
 	
 	Point centerA = worldPosition(a->rotationCenter, *a);
 	Point centerB = worldPosition(b->rotationCenter, *b);
-	Point RA = pointMake(centerA.x-pair.location.x, centerA.y-pair.location.y);
-	Point RB = pointMake(centerB.x-pair.location.x, centerB.y-pair.location.y);
+	Point RA = pointMake(pair.location.x-centerA.x, pair.location.y-centerA.y);
+	Point RB = pointMake(pair.location.x-centerB.x, pair.location.y-centerB.y);
 	
-	Vector VAP = pointMake(a->linearVelocity.x+a->angularVelocity*RA.x, a->linearVelocity.y+a->angularVelocity*RA.y);
-	Vector VBP = pointMake(b->linearVelocity.x+b->angularVelocity*RB.x, b->linearVelocity.y+b->angularVelocity*RB.y);
+	Vector VAP = pointMake(a->linearVelocity.x-a->angularVelocity*RA.y, a->linearVelocity.y+a->angularVelocity*RA.x);
+	Vector VBP = pointMake(b->linearVelocity.x-b->angularVelocity*RB.y, b->linearVelocity.y+b->angularVelocity*RB.x);
 	Vector VAB = pointMake(VAP.x - VBP.x, VAP.y - VBP.y);
 	
 	float crossRANsquare = RA.x*pair.normal.y-pair.normal.x*RA.y;

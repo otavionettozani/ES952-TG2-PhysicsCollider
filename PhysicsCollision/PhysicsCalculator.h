@@ -30,5 +30,9 @@ typedef struct CP{
 }CollisionPair;
 
 
-//returns a collision pair between objects A and B, this method calculates both coarse and refined collision
+/*returns the collision parameters variation for object A
+ in a collision of both objects A and B, this method 
+ calculates both coarse and refined collision*/
 State collideObjects(PhysicsObject* a, PhysicsObject* b);
+
+void runPhysics(float timeStep);
